@@ -11,15 +11,13 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public class PingPlayer extends JavaPlugin implements Listener {
 
-    PingPlayer plugin;
     PluginManager pluginManager;
 
     @Override
     public void onEnable() {
-        plugin = this;
-        pluginManager = plugin.getServer().getPluginManager();
+        pluginManager = getServer().getPluginManager();
 
-        pluginManager.registerEvents(this, plugin);
+        pluginManager.registerEvents(this, this);
         getLogger().info("PingPlayer is Enabled!");
     }
 
@@ -33,7 +31,7 @@ public class PingPlayer extends JavaPlugin implements Listener {
     public void onMentionInChat(AsyncPlayerChatEvent event) {
         String message = event.getMessage();
 
-        for (Player player : plugin.getServer().getOnlinePlayers()) {
+        for (Player player : getServer().getOnlinePlayers()) {
             if (message.contains(player.getDisplayName())) {
                 player.playSound(player.getLocation(), Sound.ENTITY_VILLAGER_TRADE, 1, 1);
                 event.setMessage(message);
