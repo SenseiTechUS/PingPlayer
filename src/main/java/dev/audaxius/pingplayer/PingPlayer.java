@@ -1,5 +1,6 @@
 package dev.audaxius.pingplayer;
 
+import org.bukkit.ChatColor;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -30,11 +31,14 @@ public class PingPlayer extends JavaPlugin implements Listener {
     @EventHandler(priority = EventPriority.LOWEST)
     public void onMentionInChat(AsyncPlayerChatEvent event) {
         String message = event.getMessage();
-
         for (Player player : getServer().getOnlinePlayers()) {
-            if (message.contains(player.getDisplayName())) {
+            String name = player.getDisplayName();
+            if (message.contains(name)) {
                 player.playSound(player.getLocation(), Sound.ENTITY_VILLAGER_TRADE, 1, 1);
-                event.setMessage(message);
+
+                String first = message.substring(0,message.indexOf(name));
+                String last = message.substring(message.indexOf(name)+name.length());
+                event.setMessage(first + ChatColor.AQUA + name + ChatColor.RESET + last);
             }
         }
     }
